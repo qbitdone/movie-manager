@@ -44,5 +44,22 @@ namespace movie_manager.Services
             return false;
         }
 
+        public async Task<Director> UpdateDirectorById(DirectorRequest updatedDirector, Guid directorId)
+        {
+            var _director = await _context.Directors.FirstOrDefaultAsync(n => n.Id == directorId);
+
+            if (_director != null)
+            {
+                _director.Name = updatedDirector.Name;
+                _director.Surname = updatedDirector.Surname;
+                _director.Username = updatedDirector.Username;
+                _director.Password = updatedDirector.Password;
+
+                await _context.SaveChangesAsync();
+            }
+
+            return _director;
+        }
+
     }
 }
