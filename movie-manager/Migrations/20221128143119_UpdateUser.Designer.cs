@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using movie_manager.Data;
 
@@ -10,9 +11,11 @@ using movie_manager.Data;
 namespace moviemanager.Migrations
 {
     [DbContext(typeof(MovieManagerDbContext))]
-    partial class MovieManagerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221128143119_UpdateUser")]
+    partial class UpdateUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,7 +54,7 @@ namespace moviemanager.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Korisnici");
                 });
 #pragma warning restore 612, 618
         }

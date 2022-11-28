@@ -7,6 +7,6 @@ namespace movie_manager.Data
     {
         public MovieManagerDbContext(DbContextOptions<MovieManagerDbContext> options) : base(options) { }
 
-        public DbSet<Korisnik> Korisnici { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }
