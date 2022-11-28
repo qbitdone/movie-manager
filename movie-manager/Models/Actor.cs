@@ -18,5 +18,7 @@ namespace movie_manager.Models
         [Required]
         public double ExpectedSalary { get; set; }
         public string Role { get; set; } = "Actor";
+        public ICollection<MovieActor> Movies { get; set; }
+
     }
 }

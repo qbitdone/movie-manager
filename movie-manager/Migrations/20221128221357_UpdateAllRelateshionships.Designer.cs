@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using movie_manager.Data;
 
@@ -11,9 +12,11 @@ using movie_manager.Data;
 namespace moviemanager.Migrations
 {
     [DbContext(typeof(MovieManagerDbContext))]
-    partial class MovieManagerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221128221357_UpdateAllRelateshionships")]
+    partial class UpdateAllRelateshionships
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -124,7 +127,11 @@ namespace moviemanager.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("DirectorId")
+                    b.Property<string>("DirectorId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("DirectorId1")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Duration")
@@ -143,7 +150,7 @@ namespace moviemanager.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DirectorId");
+                    b.HasIndex("DirectorId1");
 
                     b.ToTable("Movies");
                 });
@@ -226,7 +233,7 @@ namespace moviemanager.Migrations
                 {
                     b.HasOne("movie_manager.Models.Director", "Director")
                         .WithMany()
-                        .HasForeignKey("DirectorId")
+                        .HasForeignKey("DirectorId1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
