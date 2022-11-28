@@ -31,5 +31,17 @@ namespace movie_manager.Services
             }
         }
 
+        public async Task<bool> DeleteDirectorById(Guid directorId)
+        {
+            var _director = await _context.Directors.FirstOrDefaultAsync(n => n.Id == directorId);
+            if (_director != null)
+            {
+                _context.Directors.Remove(_director);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
+
     }
 }
