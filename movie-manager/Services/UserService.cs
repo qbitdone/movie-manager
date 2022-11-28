@@ -16,7 +16,7 @@ namespace movie_manager.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<User>> GetAllUsers() => await _context.Users.ToListAsync();
+        public async Task<IEnumerable<UserResponse>> GetAllUsers() => await _context.Users.Select(user => _mapper.Map<UserResponse>(user)).ToListAsync();
         public async Task<bool> AddUser(UserRequest newUser)
         {
             try
