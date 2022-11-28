@@ -11,6 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<MovieManagerDbContext>(options => options.UseSqlServer(connectionString));
 
 builder.Services.AddTransient<UserService>();
+builder.Services.AddTransient<DirectorService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

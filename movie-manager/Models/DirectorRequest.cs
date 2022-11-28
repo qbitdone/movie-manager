@@ -2,9 +2,8 @@
 
 namespace movie_manager.Models
 {
-    public class Director
+    public class DirectorRequest
     {
-        public Guid Id { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]
@@ -15,6 +14,5 @@ namespace movie_manager.Models
         public string Password { get; set; }
         public string Role { get; set; } = "Director";
 
-        public ICollection<Movie> Movies { get; set; }
     }
 }

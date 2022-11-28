@@ -9,6 +9,9 @@ namespace movie_manager.AutoMapper
         {
             CreateMap<UserRequest, User>();
             CreateMap<User, UserResponse>();
+
+            CreateMap<DirectorRequest, Director>();
+            CreateMap<Director, DirectorResponse>();
         }
     }
 }
