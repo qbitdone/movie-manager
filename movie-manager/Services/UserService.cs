@@ -1,4 +1,6 @@
-﻿using movie_manager.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using movie_manager.Data;
+using movie_manager.Models;
 
 namespace movie_manager.Services
 {
@@ -10,5 +12,8 @@ namespace movie_manager.Services
         {
             _context = context; 
         }
+
+        public async Task<IEnumerable<User>> GetAllUsers() => await _context.Users.ToListAsync();
+       
     }
 }

@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using movie_manager.Data;
+using movie_manager.Services;
 using System;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnectionString");
 builder.Services.AddControllers();
 builder.Services.AddDbContext<MovieManagerDbContext>(options => options.UseSqlServer(connectionString));
+
+builder.Services.AddTransient<UserService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
