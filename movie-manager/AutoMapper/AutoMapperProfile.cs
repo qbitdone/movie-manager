@@ -8,6 +8,7 @@ namespace movie_manager.AutoMapper
         public AutoMapperProfile() 
         {
             CreateMap<UserRequest, User>();
+            CreateMap<User, UserResponse>();
         }
     }
 }

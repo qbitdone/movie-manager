@@ -11,22 +11,22 @@ namespace movie_manager.Controllers
     public class UserController : ControllerBase
     {
         private readonly UserService _userService;
-        private readonly IMapper _mapper;
+        
 
         public UserController(UserService userService, IMapper mapper)
         {
             _userService = userService;
-            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetAllUsers() => Ok(await _userService.GetAllUsers());
+        public async Task<ActionResult<IEnumerable<UserResponse>>> GetAllUsers()
+            => Ok(await _userService.GetAllUsers());
 
 
         [HttpPost]
         public async Task<ActionResult> AddUser([FromBody] UserRequest newUser)
         {
-            var result = await _userService.AddUser(_mapper.Map<User>(newUser));
+            var result = await _userService.AddUser(newUser);
             if (result)
             {
                 return Ok("You have successfully added new User!");
