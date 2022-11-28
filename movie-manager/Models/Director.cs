@@ -14,5 +14,7 @@ namespace movie_manager.Models
         [Required]
         public string Password { get; set; }
         public string Role { get; set; } = "Director";
+
+        public ICollection<Director> Directors { get; set; }
     }
 }
