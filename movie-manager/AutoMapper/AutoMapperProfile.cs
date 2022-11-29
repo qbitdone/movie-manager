@@ -12,6 +12,9 @@ namespace movie_manager.AutoMapper
 
             CreateMap<DirectorRequest, Director>();
             CreateMap<Director, DirectorResponse>();
+
+            CreateMap<GenreRequest, Genre>();
+            CreateMap<Genre, GenreResponse>();
         }
     }
 }
