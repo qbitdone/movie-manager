@@ -82,5 +82,33 @@ namespace movie_manager.Controllers
                 return BadRequest("Could not add new Genre to Movie - All fields are required");
             }
         }
+
+        [HttpPost("invite")]
+        public async Task<ActionResult> InviteActorToMovie([FromBody] MovieActorRequest newMovieActor)
+        {
+            var isInvited = await _movieService.InviteActorToMovie(newMovieActor.MovieId, newMovieActor.ActorId);
+            if (isInvited)
+            {
+                return Ok("You have successfully invited Actor to Movie!");
+            }
+            else
+            {
+                return BadRequest("Could not send invitation for Movie to Actor - All fields are required");
+            }
+        }
+
+        [HttpPost("apply")]
+        public async Task<ActionResult> SendApplicationForMovie([FromBody] MovieActorRequest newMovieActor)
+        {
+            var isSent = await _movieService.SendApplicationForMovie(newMovieActor.MovieId, newMovieActor.ActorId);
+            if (isSent)
+            {
+                return Ok("You have successfully sent application for Movie!");
+            }
+            else
+            {
+                return BadRequest("Could not send application for Movie - All fields are required");
+            }
+        }
     }
 }
