@@ -15,6 +15,9 @@ namespace movie_manager.AutoMapper
 
             CreateMap<GenreRequest, Genre>();
             CreateMap<Genre, GenreResponse>();
+
+            CreateMap<MovieRequest, Movie>();
+            CreateMap<Movie, MovieResponse>();
         }
     }
 }
