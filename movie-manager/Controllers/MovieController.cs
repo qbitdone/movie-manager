@@ -65,6 +65,7 @@ namespace movie_manager.Controllers
             }
             return Ok($"You have successfully deleted movie with id {movieId}");
         }
+
         [HttpGet("director/{directorId}")]
         public async Task<ActionResult> GetAllDirectorMovies(Guid directorId) => Ok(await _movieService.GetAllDirectorMovies(directorId));
     }
