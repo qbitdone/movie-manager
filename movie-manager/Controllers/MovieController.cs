@@ -19,6 +19,17 @@ namespace movie_manager.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MovieResponse>>> GetAllMovies() => Ok(await _movieService.GetAllMovies());
 
+        [HttpGet("{movieId}")]
+        public async Task<ActionResult<IEnumerable<MovieResponse>>> GetMovieById(Guid movieId)
+        {
+            var _movie = await _movieService.GetMovieById(movieId);
+            if (_movie != null)
+            {
+                return Ok(await _movieService.GetMovieById(movieId));
+
+            }
+            return NotFound($"Movie with id {movieId} does not exists");
+        }
         [HttpPost]
         public async Task<ActionResult> AddMovie([FromBody] MovieRequest newMovie)
         {

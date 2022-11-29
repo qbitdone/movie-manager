@@ -17,7 +17,11 @@ namespace movie_manager.Services
         }
 
         public async Task<IEnumerable<MovieResponse>> GetAllMovies() => await _context.Movies.Select(movie => _mapper.Map<MovieResponse>(movie)).ToListAsync();
-
+        public async Task<MovieResponse> GetMovieById(Guid movieId)
+        {
+            var _movie = await _context.Movies.FirstOrDefaultAsync(movie => movie.Id == movieId);
+            return _mapper.Map<MovieResponse>(_movie);
+        }
         public async Task<bool> AddMovie(MovieRequest newMovie)
         {
             try
