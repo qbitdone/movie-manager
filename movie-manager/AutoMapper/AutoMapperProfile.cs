@@ -18,6 +18,9 @@ namespace movie_manager.AutoMapper
 
             CreateMap<MovieRequest, Movie>();
             CreateMap<Movie, MovieResponse>();
+
+            CreateMap<ActorRequest, Actor>();
+            CreateMap<Actor, ActorResponse>();
         }
     }
 }
