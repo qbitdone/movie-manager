@@ -10,6 +10,7 @@ namespace movie_manager.Controllers
     public class DirectorController : ControllerBase
     {
         private readonly DirectorService _directorService;
+        private readonly MovieService _movieService;
 
         public DirectorController(DirectorService directorService)
         {

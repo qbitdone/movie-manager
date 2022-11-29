@@ -63,5 +63,12 @@ namespace movie_manager.Services
 
             return _movie;
         }
+
+        public async Task<List<MovieResponse>> GetAllDirectorMovies(Guid directorId)  
+        {
+            return await _context.Movies.Where(movie => movie.DirectorId == directorId).Select(movie => _mapper.Map<MovieResponse>(movie)).Distinct().ToListAsync();
+        }
+
+
     }
 }

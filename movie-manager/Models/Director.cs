@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using movie_manager.Services;
+using System.ComponentModel.DataAnnotations;
+using System.Reflection.Metadata.Ecma335;
 
 namespace movie_manager.Models
 {
@@ -15,6 +17,7 @@ namespace movie_manager.Models
         public string Password { get; set; }
         public string Role { get; set; } = "Director";
 
-        public ICollection<Movie> Movies { get; set; }
+        public ICollection<Movie> Movies  { get; set; }
     }
 }
+
