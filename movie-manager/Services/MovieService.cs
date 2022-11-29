@@ -157,6 +157,25 @@ namespace movie_manager.Services
                 
         }
 
+        public async Task<List<MovieResponse>> GetAllActorApplications(Guid actorId)
+        {
+            var _actorApplications = await _context.MovieActors
+                .Where(x => x.ActorId == actorId && x.DirectorAccepted == false && x.ActorAccepted == true)
+                .ToListAsync();
 
+            List<MovieResponse> _actorAppliedMovies = new List<MovieResponse>();
+            foreach (var actorApplication in _actorApplications)
+            {
+                foreach (var movie in _context.Movies)
+                {
+                    if (movie.Id.Equals(actorApplication.MovieId))
+                    {
+                        _actorAppliedMovies.Add(_mapper.Map<MovieResponse>(movie));
+                    }
+                }
+            }
+            return _actorAppliedMovies;
+
+        }
     }
 }

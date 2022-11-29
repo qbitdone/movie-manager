@@ -113,5 +113,8 @@ namespace movie_manager.Controllers
 
         [HttpGet("actor/{actorId}/invitations")]
         public async Task<ActionResult> GetAllActorInvitations(Guid actorId) => Ok(await _movieService.GetAllActorInvitations(actorId));
+
+        [HttpGet("actor/{actorId}/applications")]
+        public async Task<ActionResult> GetAllActorApplications(Guid actorId) => Ok(await _movieService.GetAllActorApplications(actorId));
     }
 }
