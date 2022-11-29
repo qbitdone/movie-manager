@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using movie_manager.Data;
 using movie_manager.Models;
+using System.Collections.Generic;
 
 namespace movie_manager.Services
 {
@@ -133,6 +134,27 @@ namespace movie_manager.Services
             {
                 return false;
             }
+        }
+
+        public async Task<List<MovieResponse>> GetAllActorInvitations(Guid actorId)
+        {
+            var _actorInvitations = await _context.MovieActors
+                .Where(x => x.ActorId == actorId && x.DirectorAccepted == true && x.ActorAccepted == false)
+                .ToListAsync();
+
+            List<MovieResponse> _actorInvitedMovies = new List<MovieResponse>();
+            foreach (var actorInvitation in _actorInvitations)
+            {
+                foreach (var movie in _context.Movies)
+                {
+                    if (movie.Id.Equals(actorInvitation.MovieId))
+                    {
+                        _actorInvitedMovies.Add(_mapper.Map<MovieResponse>(movie));
+                    }
+                }
+            }
+            return _actorInvitedMovies;
+                
         }
 
 
