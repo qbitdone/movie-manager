@@ -73,6 +73,23 @@ namespace movie_manager.Services
             return await _context.Movies.Where(movie => movie.DirectorId == directorId).Select(movie => _mapper.Map<MovieResponse>(movie)).Distinct().ToListAsync();
         }
 
+        public async Task<bool> AddGenreToMovie(Guid movieId, Guid genreId)
+        {
+            try
+            {
+                await _context.MovieGenres.AddAsync(new MovieGenre
+                {
+                    MovieId = movieId,
+                    GenreId = genreId
+                });
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
 
     }
 }

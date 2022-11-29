@@ -68,5 +68,19 @@ namespace movie_manager.Controllers
 
         [HttpGet("director/{directorId}")]
         public async Task<ActionResult> GetAllDirectorMovies(Guid directorId) => Ok(await _movieService.GetAllDirectorMovies(directorId));
+
+        [HttpPost("genre")]
+        public async Task<ActionResult> AddMovieGenres([FromBody] MovieGenreRequest newMovieGenre)
+        {
+            var isAdded = await _movieService.AddGenreToMovie(newMovieGenre.MovieId, newMovieGenre.GenreId);
+            if (isAdded)
+            {
+                return Ok("You have successfully added new Genre to Movie!");
+            }
+            else
+            {
+                return BadRequest("Could not add new Genre to Movie - All fields are required");
+            }
+        }
     }
 }
