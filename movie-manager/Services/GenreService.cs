@@ -34,19 +34,19 @@ namespace movie_manager.Services
 
         public async Task<bool> DeleteGenreById(Guid genreId)
         {
-            var _director = await _context.Directors.FirstOrDefaultAsync(n => n.Id == genreId);
-            if (_director != null)
+            var _genre = await _context.Genres.FirstOrDefaultAsync(n => n.Id == genreId);
+            if (_genre != null)
             {
-                _context.Directors.Remove(_director);
+                _context.Genres.Remove(_genre);
                 await _context.SaveChangesAsync();
                 return true;
             }
             return false;
         }
 
-        public async Task<Director> UpdateGenreById(GenreRequest updatedGenre, Guid genreId)
+        public async Task<Genre> UpdateGenreById(GenreRequest updatedGenre, Guid genreId)
         {
-            var _genre = await _context.Directors.FirstOrDefaultAsync(n => n.Id == genreId);
+            var _genre = await _context.Genres.FirstOrDefaultAsync(n => n.Id == genreId);
 
             if (_genre != null)
             {

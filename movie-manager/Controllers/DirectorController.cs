@@ -38,15 +38,13 @@ namespace movie_manager.Controllers
             var updatedDirector = await _directorService.UpdateDirectorById(newDirector, directorId);
             if (updatedDirector == null)
             {
-                //return NotFound($"Director with id {directorId} does not exists"); 
-                return NotFound(updatedDirector); 
+                return NotFound($"Director with id {directorId} does not exists"); 
             }
-            //return Ok($"You have successfully updated director with id {directorId}");
-            return Ok(updatedDirector);
+            return Ok($"You have successfully updated director with id {directorId}");
         }
 
         [HttpDelete("{directorId}")]
-        public async Task<ActionResult> DeleteAccommodationById(Guid directorId)
+        public async Task<ActionResult> DeleteDirectorById(Guid directorId)
         {
             bool isDeleted = await _directorService.DeleteDirectorById(directorId); 
             if (!isDeleted)
