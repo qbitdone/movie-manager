@@ -110,11 +110,15 @@ namespace movie_manager.Controllers
                 return BadRequest("Could not send application for Movie - All fields are required");
             }
         }
+        
 
         [HttpGet("actor/{actorId}/invitations")]
         public async Task<ActionResult> GetAllActorInvitations(Guid actorId) => Ok(await _movieService.GetAllActorInvitations(actorId));
 
         [HttpGet("actor/{actorId}/applications")]
         public async Task<ActionResult> GetAllActorApplications(Guid actorId) => Ok(await _movieService.GetAllActorApplications(actorId));
+
+        [HttpGet("actor/{actorId}/arrangement")]
+        public async Task<ActionResult> GetAllActorArrangement(Guid actorId) => Ok(await _movieService.GetAllActorArrangement(actorId));
     }
 }

@@ -1,6 +1,7 @@
 ﻿using movie_manager.Services;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection.Metadata.Ecma335;
+using System.Text.Json.Serialization;
 
 namespace movie_manager.Models
 {
@@ -16,7 +17,7 @@ namespace movie_manager.Models
         [Required]
         public string Password { get; set; }
         public string Role { get; set; } = "Director";
-
+        [JsonIgnore]
         public ICollection<Movie> Movies  { get; set; }
     }
 }

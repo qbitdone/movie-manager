@@ -16,7 +16,10 @@ namespace movie_manager.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<DirectorResponse>> GetAllDirectors() => await _context.Directors.Select(director => _mapper.Map<DirectorResponse>(director)).ToListAsync();
+        public async Task<IEnumerable<DirectorResponse>> GetAllDirectors() => await _context.Directors
+            .Include(director => director.Movies)
+            .Select(director => _mapper.Map<DirectorResponse>(director))
+            .ToListAsync();
 
         public async Task<bool> AddDirector(DirectorRequest newDirector)
         {

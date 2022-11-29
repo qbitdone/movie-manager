@@ -17,7 +17,10 @@ namespace movie_manager.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<MovieResponse>> GetAllMovies() => await _context.Movies.Select(movie => _mapper.Map<MovieResponse>(movie)).ToListAsync();
+        public async Task<IEnumerable<MovieResponse>> GetAllMovies() => await _context.Movies
+            .Include(movie => movie.Director)
+            .Select(movie => _mapper.Map<MovieResponse>(movie))
+            .ToListAsync();
         
         public async Task<MovieResponse> GetMovieById(Guid movieId)
         {
@@ -73,7 +76,9 @@ namespace movie_manager.Services
 
         public async Task<List<MovieResponse>> GetAllDirectorMovies(Guid directorId)  
         {
-            return await _context.Movies.Where(movie => movie.DirectorId == directorId).Select(movie => _mapper.Map<MovieResponse>(movie)).Distinct().ToListAsync();
+            return await _context.Movies
+                .Where(movie => movie.DirectorId == directorId)
+                .Select(movie => _mapper.Map<MovieResponse>(movie)).Distinct().ToListAsync();
         }
 
         public async Task<bool> AddGenreToMovie(Guid movieId, Guid genreId)
@@ -136,46 +141,23 @@ namespace movie_manager.Services
             }
         }
 
-        public async Task<List<MovieResponse>> GetAllActorInvitations(Guid actorId)
-        {
-            var _actorInvitations = await _context.MovieActors
-                .Where(x => x.ActorId == actorId && x.DirectorAccepted == true && x.ActorAccepted == false)
+        public async Task<List<MovieResponse>> GetAllActorInvitations(Guid actorId) => await _context.MovieActors
+                .Include(n => n.Movie)
+                .Where(n => n.ActorId == actorId && n.DirectorAccepted == true && n.ActorAccepted == false)
+                .Select(n => _mapper.Map<MovieResponse>(n.Movie))
+                .ToListAsync();     
+        
+
+        public async Task<List<MovieResponse>> GetAllActorApplications(Guid actorId) => await _context.MovieActors
+                .Include(n => n.Movie)
+                .Where(n => n.ActorId == actorId && n.DirectorAccepted == false && n.ActorAccepted == true)
+                .Select(n => _mapper.Map<MovieResponse>(n.Movie))
                 .ToListAsync();
 
-            List<MovieResponse> _actorInvitedMovies = new List<MovieResponse>();
-            foreach (var actorInvitation in _actorInvitations)
-            {
-                foreach (var movie in _context.Movies)
-                {
-                    if (movie.Id.Equals(actorInvitation.MovieId))
-                    {
-                        _actorInvitedMovies.Add(_mapper.Map<MovieResponse>(movie));
-                    }
-                }
-            }
-            return _actorInvitedMovies;
-                
-        }
-
-        public async Task<List<MovieResponse>> GetAllActorApplications(Guid actorId)
-        {
-            var _actorApplications = await _context.MovieActors
-                .Where(x => x.ActorId == actorId && x.DirectorAccepted == false && x.ActorAccepted == true)
+        public async Task<List<MovieResponse>> GetAllActorArrangement(Guid actorId) => await _context.MovieActors
+                .Include(n => n.Movie)
+                .Where(n => n.ActorId == actorId && n.DirectorAccepted == true && n.ActorAccepted == true)
+                .Select(n => _mapper.Map<MovieResponse>(n.Movie))
                 .ToListAsync();
-
-            List<MovieResponse> _actorAppliedMovies = new List<MovieResponse>();
-            foreach (var actorApplication in _actorApplications)
-            {
-                foreach (var movie in _context.Movies)
-                {
-                    if (movie.Id.Equals(actorApplication.MovieId))
-                    {
-                        _actorAppliedMovies.Add(_mapper.Map<MovieResponse>(movie));
-                    }
-                }
-            }
-            return _actorAppliedMovies;
-
-        }
     }
 }
