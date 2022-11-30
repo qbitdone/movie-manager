@@ -159,5 +159,11 @@ namespace movie_manager.Services
                 .Where(n => n.ActorId == actorId && n.DirectorAccepted == true && n.ActorAccepted == true)
                 .Select(n => _mapper.Map<MovieResponse>(n.Movie))
                 .ToListAsync();
+
+        public async Task<List<ActorResponse>> GetAllMovieActors(Guid movieId) => await _context.MovieActors
+            .Include(n => n.Movie)
+            .Where(n => n.MovieId == movieId)
+            .Select(n => _mapper.Map<ActorResponse>(n.Actor))
+            .ToListAsync();
     }
 }

@@ -74,7 +74,7 @@ namespace movie_manager.Controllers
         }
 
         [HttpGet("director/{directorId}")]
-        [Authorize(Roles = "User, Director")]
+        [Authorize(Roles = "User, Director, Actor")]
         public async Task<ActionResult> GetAllDirectorMovies(Guid directorId) => Ok(await _movieService.GetAllDirectorMovies(directorId));
 
         [HttpPost("genre")]
@@ -134,5 +134,9 @@ namespace movie_manager.Controllers
         [HttpGet("actor/{actorId}/arrangement")]
         [Authorize(Roles = "User, Actor")]
         public async Task<ActionResult> GetAllActorArrangement(Guid actorId) => Ok(await _movieService.GetAllActorArrangement(actorId));
+
+        [HttpGet("director/{movieId}")]
+        [Authorize(Roles = "User, Director")]
+        public async Task<ActionResult> GetAllMovieActors(Guid movieId) => Ok(await _movieService.GetAllMovieActors(movieId));
     }
 }
