@@ -37,6 +37,7 @@ namespace movie_manager.Controllers
         }
 
         [HttpPut("{genreId}")]
+        [Authorize(Roles = "User")]
         public async Task<ActionResult> UpdateGenreById([FromBody] GenreRequest newGenre, Guid genreId)
         {
             var updatedGenre = await _genreService.UpdateGenreById(newGenre, genreId);
@@ -48,6 +49,7 @@ namespace movie_manager.Controllers
         }
 
         [HttpDelete("{genreId}")]
+        [Authorize(Roles = "User")]
         public async Task<ActionResult> DeleteGenreById(Guid genreId)
         {
             bool isDeleted = await _genreService.DeleteGenreById(genreId);

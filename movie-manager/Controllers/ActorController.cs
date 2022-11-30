@@ -61,6 +61,7 @@ namespace movie_manager.Controllers
         }
 
         [HttpDelete("{actorId}")]
+        [Authorize(Roles = "User")]
         public async Task<ActionResult> DeleteActorById(Guid actorId)
         {
             bool isDeleted = await _actorService.DeleteActorById(actorId);
