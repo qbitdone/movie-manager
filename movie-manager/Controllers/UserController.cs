@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using movie_manager.Models;
@@ -19,11 +20,13 @@ namespace movie_manager.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "User")]
         public async Task<ActionResult<IEnumerable<UserResponse>>> GetAllUsers()
             => Ok(await _userService.GetAllUsers());
 
 
         [HttpPost]
+        [Authorize(Roles = "User")]
         public async Task<ActionResult> AddUser([FromBody] UserRequest newUser)
         {
             var result = await _userService.AddUser(newUser);
@@ -34,6 +37,17 @@ namespace movie_manager.Controllers
             {
                 return BadRequest("Could not add new User - All fields are required");
             }
+        }
+
+        [HttpPost("login")]
+        public async Task<ActionResult> Login([FromBody] UserLogin userLogin)
+        {
+            var token = await _userService.Login(userLogin);
+            if (token != null)
+            {
+                return Ok(token);
+            }
+            return NotFound("Login failed - Check your credentials");
         }
     }
 }
