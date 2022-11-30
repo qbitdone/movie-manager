@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using movie_manager.Models;
 using movie_manager.Services;
+using System.Data;
 
 namespace movie_manager.Controllers
 {
@@ -17,9 +19,11 @@ namespace movie_manager.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "User")]
         public async Task<ActionResult<IEnumerable<DirectorResponse>>> GetAllDirectors() => Ok(await _directorService.GetAllDirectors());
 
         [HttpPost]
+        [Authorize(Roles = "User")]
         public async Task<ActionResult> AddDirector([FromBody] DirectorRequest newDirector)
         {
             var result = await _directorService.AddDirector(newDirector);
@@ -29,10 +33,11 @@ namespace movie_manager.Controllers
             }
             else
             {
-                return BadRequest("Could not add new Director - All fields are required");
+                return BadRequest("Could not add new Director - All fields are required/Username already exists");
             }
         }
         [HttpPut("{directorId}")]
+        [Authorize(Roles = "User")]
         public async Task<ActionResult> UpdateDirectorById([FromBody] DirectorRequest newDirector, Guid directorId)
         {
             var updatedDirector = await _directorService.UpdateDirectorById(newDirector, directorId);
@@ -44,6 +49,7 @@ namespace movie_manager.Controllers
         }
 
         [HttpDelete("{directorId}")]
+        [Authorize(Roles = "User")]
         public async Task<ActionResult> DeleteDirectorById(Guid directorId)
         {
             bool isDeleted = await _directorService.DeleteDirectorById(directorId); 

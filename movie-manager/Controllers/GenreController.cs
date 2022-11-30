@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using movie_manager.Models;
 using movie_manager.Services;
@@ -17,9 +18,11 @@ namespace movie_manager.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "User")]
         public async Task<ActionResult<IEnumerable<GenreResponse>>> GetAllGenres() => Ok(await _genreService.GetAllGenres());
 
         [HttpPost]
+        [Authorize(Roles = "User")]
         public async Task<ActionResult> AddGenre([FromBody] GenreRequest newGenre)
         {
             var result = await _genreService.AddGenre(newGenre);
@@ -34,7 +37,7 @@ namespace movie_manager.Controllers
         }
 
         [HttpPut("{genreId}")]
-        public async Task<ActionResult> UpdateDirectorById([FromBody] GenreRequest newGenre, Guid genreId)
+        public async Task<ActionResult> UpdateGenreById([FromBody] GenreRequest newGenre, Guid genreId)
         {
             var updatedGenre = await _genreService.UpdateGenreById(newGenre, genreId);
             if (updatedGenre == null)

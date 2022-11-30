@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using movie_manager.Models;
 using movie_manager.Services;
@@ -17,20 +18,23 @@ namespace movie_manager.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "User")]
         public async Task<ActionResult<IEnumerable<ActorResponse>>> GetAllActors() => Ok(await _actorService.GetAllActors());
 
         [HttpGet("{actorId}")]
+        [Authorize(Roles = "User, Actor")]
         public async Task<ActionResult<IEnumerable<ActorResponse>>> GetActorById(Guid actorId)
         {
             var _actor = await _actorService.GetActorById(actorId);
             if (_actor != null)
             {
-                return Ok(await _actorService.GetActorById(actorId));
+                return Ok(_actor);
 
             }
             return NotFound($"Actor with id {actorId} does not exists");
         }
         [HttpPost]
+        [Authorize(Roles = "User")]
         public async Task<ActionResult> AddActor([FromBody] ActorRequest newActor)
         {
             var isAdded = await _actorService.AddActor(newActor);
@@ -40,11 +44,12 @@ namespace movie_manager.Controllers
             }
             else
             {
-                return BadRequest("Could not add new Actor - All fields are required");
+                return BadRequest("Could not add new Actor - All fields are required/Username already exists");
             }
         }
 
         [HttpPut("{actorId}")]
+        [Authorize(Roles = "User, Actor")]
         public async Task<ActionResult> UpdateActorById([FromBody] ActorRequest newActor, Guid actorId)
         {
             var _updatedActor = await _actorService.UpdateActorById(newActor, actorId);

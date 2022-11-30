@@ -26,7 +26,6 @@ namespace movie_manager.Controllers
 
 
         [HttpPost]
-        [Authorize(Roles = "User")]
         public async Task<ActionResult> AddUser([FromBody] UserRequest newUser)
         {
             var result = await _userService.AddUser(newUser);
@@ -35,7 +34,7 @@ namespace movie_manager.Controllers
                 return Ok("You have successfully added new User!");
             } else
             {
-                return BadRequest("Could not add new User - All fields are required");
+                return BadRequest("Could not add new User - All fields are required/Username already exists");
             }
         }
 

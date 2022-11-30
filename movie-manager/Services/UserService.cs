@@ -27,6 +27,10 @@ namespace movie_manager.Services
         {
             try
             {
+                if (await CheckIfUserExists(newUser.Username))
+                {
+                    return false;
+                }
                 await _context.Users.AddAsync(_mapper.Map<User>(newUser));
                 await _context.SaveChangesAsync();
                 return true;
@@ -98,5 +102,12 @@ namespace movie_manager.Services
             }
             return null;
         }
+
+        public async Task<bool> CheckIfUserExists(string username) => (
+            await _context.Users.AnyAsync(u => u.Username.Equals(username)) ||
+            await _context.Directors.AnyAsync(d => d.Username.Equals(username)) || 
+            await _context.Actors.AnyAsync(a => a.Username.Equals(username))
+            );
+
     }
 }

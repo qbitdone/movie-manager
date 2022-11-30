@@ -9,11 +9,12 @@ namespace movie_manager.Services
     {
         private readonly MovieManagerDbContext _context;
         private readonly IMapper _mapper;
-
-        public DirectorService(MovieManagerDbContext context, IMapper mapper)
+        private readonly UserService _userService;
+        public DirectorService(MovieManagerDbContext context, IMapper mapper, UserService userService)
         {
             _context = context;
             _mapper = mapper;
+            _userService = userService;
         }
 
         public async Task<IEnumerable<DirectorResponse>> GetAllDirectors() => await _context.Directors
@@ -25,6 +26,10 @@ namespace movie_manager.Services
         {
             try
             {
+                if (await _userService.CheckIfUserExists(newDirector.Username))
+                {
+                    return false;
+                }
                 await _context.Directors.AddAsync(_mapper.Map<Director>(newDirector));
                 await _context.SaveChangesAsync();
                 return true;
