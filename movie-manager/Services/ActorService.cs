@@ -9,9 +9,9 @@ namespace movie_manager.Services
     {
         private readonly MovieManagerDbContext _context;
         private readonly IMapper _mapper;
-        private readonly UserService _userService;
+        private readonly IUserService _userService;
 
-        public ActorService(MovieManagerDbContext context, IMapper mapper,UserService userService)
+        public ActorService(MovieManagerDbContext context, IMapper mapper,IUserService userService)
         {
             _context = context;
             _mapper = mapper;

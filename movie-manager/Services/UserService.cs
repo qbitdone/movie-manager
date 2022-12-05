@@ -9,7 +9,7 @@ using System.Text;
 
 namespace movie_manager.Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
         private readonly MovieManagerDbContext _context;
         private readonly IMapper _mapper;
@@ -81,14 +81,14 @@ namespace movie_manager.Services
 
             var token = new JwtSecurityToken
             (
-                //issuer: _configuration["Jwt:Issuer"],
-                //audience: _configuration["Jwt:Audience"],
+                issuer: _configuration["Jwt:Issuer"],
+                audience: _configuration["Jwt:Audience"],
                 claims: claims,
                 expires: DateTime.Now.AddMinutes(15),
                 signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"])), SecurityAlgorithms.HmacSha256)
             );
 
-             return new JwtSecurityTokenHandler().WriteToken(token);
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
         public async Task<string> Login(UserLogin userLogin)
@@ -105,7 +105,7 @@ namespace movie_manager.Services
 
         public async Task<bool> CheckIfUserExists(string username) => (
             await _context.Users.AnyAsync(u => u.Username.Equals(username)) ||
-            await _context.Directors.AnyAsync(d => d.Username.Equals(username)) || 
+            await _context.Directors.AnyAsync(d => d.Username.Equals(username)) ||
             await _context.Actors.AnyAsync(a => a.Username.Equals(username))
             );
 
