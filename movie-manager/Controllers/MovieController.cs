@@ -138,5 +138,11 @@ namespace movie_manager.Controllers
         [HttpGet("director/{movieId}")]
         [Authorize(Roles = "User, Director")]
         public async Task<ActionResult> GetAllMovieActors(Guid movieId) => Ok(await _movieService.GetAllMovieActors(movieId));
+
+        
+        [HttpGet("director")]
+        [Authorize(Roles = "User, Director")]
+        public async Task<ActionResult> GetAllMoviesFiltered(Guid? genre, double? budget, DateTime? startOfMovie, DateTime? endOfMovie, int? pageNumber) 
+            => Ok(await _movieService.GetAllMoviesFiltered(genre, budget, startOfMovie, endOfMovie, pageNumber)); 
     }
 }

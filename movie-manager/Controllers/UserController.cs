@@ -12,8 +12,8 @@ namespace movie_manager.Controllers
     public class UserController : ControllerBase
     {
         private readonly UserService _userService;
+                
         
-
         public UserController(UserService userService, IMapper mapper)
         {
             _userService = userService;

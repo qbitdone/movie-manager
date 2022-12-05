@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using movie_manager.Data;
 using movie_manager.Models;
+using movie_manager.Pagination;
 using System.Collections.Generic;
 
 namespace movie_manager.Services
@@ -165,5 +166,49 @@ namespace movie_manager.Services
             .Where(n => n.MovieId == movieId)
             .Select(n => _mapper.Map<ActorResponse>(n.Actor))
             .ToListAsync();
+
+        public async Task<List<MovieResponse>> GetAllMoviesFiltered(Guid? genre, double? budget, DateTime? startOfMovie, DateTime? endOfMovie, int? pageNumber)
+        {
+            var allMovies = await GetAllMovies();
+
+            // Filtering
+            if (genre != null)
+            {
+                allMovies = await _context.MovieGenres
+                .Include(n => n.Movie)
+                .Where(n => n.GenreId == genre)
+                .Select(n => _mapper.Map<MovieResponse>(n.Movie))
+                .ToListAsync();
+            }
+
+            if (budget != null)
+            {
+                allMovies = await _context.Movies
+                .Where(n => n.Budget <= budget)
+                .Select(n => _mapper.Map<MovieResponse>(n))
+                .ToListAsync();
+            }
+
+            if (startOfMovie != null)
+            {
+                allMovies = await _context.Movies
+                .Where(n => n.StartRecording == startOfMovie)
+                .Select(n => _mapper.Map<MovieResponse>(n))
+                .ToListAsync();
+            }
+
+            if (endOfMovie != null)
+            {
+                allMovies = await _context.Movies
+                .Where(n => n.EndRecording == endOfMovie)
+                .Select(n => _mapper.Map<MovieResponse>(n))
+                .ToListAsync();
+            }
+
+            //Paging
+            int pageSize = 5;
+            allMovies = PaginatedList<MovieResponse>.Create(allMovies.AsQueryable(), pageNumber ?? 1, pageSize);
+            return (List<MovieResponse>)allMovies;
+        } 
     }
 }
